@@ -10,21 +10,14 @@ import jakarta.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pet {
+public class ServicoEspecializacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String data_de_nascimento;
-    private String sexo;
-    private boolean ehCastrado;
-    private boolean estaInternado;
-    private float peso;
+    @ManyToOne
+    private Servico servico;
 
     @ManyToOne
-    private Raca raca;
-
-    @ManyToOne
-    private Cliente dono;
+    private Especializacao especializacao;
 }
