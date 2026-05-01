@@ -1,12 +1,9 @@
 package br.ufjf.sgcvapi.model.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Entity
