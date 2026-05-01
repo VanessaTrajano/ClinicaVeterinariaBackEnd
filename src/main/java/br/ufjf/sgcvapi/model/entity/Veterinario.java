@@ -15,7 +15,4 @@ import java.util.List;
 public class Veterinario extends Pessoa{
 
     private String crmv;
-
-    //@ManyToMany
-    //private List<Especializacao> especializacao;
 }
