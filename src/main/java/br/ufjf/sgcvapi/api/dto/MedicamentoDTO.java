@@ -1,6 +1,6 @@
 package br.ufjf.sgcvapi.api.dto;
 
-import br.ufjf.sgcvapi.model.entity.Especie;
+import br.ufjf.sgcvapi.model.entity.Medicamento;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +9,16 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EspecieDTO {
+public class MedicamentoDTO {
     private Long id;
     private String nome;
+    private String descricao;
+    private String ium;
+    private float valor;
 
-    public static EspecieDTO create(Especie especie){
+    public static MedicamentoDTO create(Medicamento medicamento){
         ModelMapper modelMapper = new ModelMapper();
-        EspecieDTO dto = modelMapper.map(especie, EspecieDTO.class);
+        MedicamentoDTO dto = modelMapper.map(medicamento, MedicamentoDTO.class);
         return dto;
     }
 }
