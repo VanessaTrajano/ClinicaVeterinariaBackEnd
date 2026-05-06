@@ -6,21 +6,20 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Pessoa {
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String cpf;
-    private String email;
-    private String celular;
-
-    @ManyToOne
-    private Endereco endereco;
+    private String complemento;
+    private Integer numero;
+    private String logradouro;
+    private String bairro;
+    private String cidade;
+    private String estado;
 }
