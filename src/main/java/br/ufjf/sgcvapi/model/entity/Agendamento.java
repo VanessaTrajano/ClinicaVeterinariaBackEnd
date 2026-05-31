@@ -11,11 +11,16 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Agendamento {
+    // essa classe precisa de avaliação posterior, ainda há dúvida sobre a estruturação
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private boolean retorno;
+    @OneToOne
+    private Servico servico;
+
+    @OneToOne
+    private Disponibilidade disponibilidade;
 
     @ManyToOne
     private Pet pet;
@@ -23,8 +28,6 @@ public class Agendamento {
     @ManyToOne
     private Cliente cliente;
 
-    @OneToOne
-    private Disponibilidade disponibilidade;
-
-    //FALTA INTERLIGAR A CONSULTA
+    @ManyToOne
+    private Consulta consulta;
 }
