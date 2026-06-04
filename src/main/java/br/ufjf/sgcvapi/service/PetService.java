@@ -39,7 +39,7 @@ public class PetService {
     }
 
     public void validar(Pet pet) {
-        if (pet.getPeso() == null || pet.getPeso() == 0) {
+        if (pet.getPeso() == 0) {
             throw new RegraNegocioException("Peso inválido");
         }
         if (pet.getNome() == null || pet.getNome().trim().equals("")) {
@@ -54,14 +54,8 @@ public class PetService {
         if (pet.getRaca() == null || pet.getRaca().getId() == null || pet.getRaca().getId() == 0) {
             throw new RegraNegocioException("Raça inválido");
         }
-        if (pet.getCliente() == null || pet.getCliente().getId() == null || pet.getCliente().getId() == 0) {
-            throw new RegraNegocioException("Cliente inválido");
-        }
-        if (pet.getEhCastrado() == null){
-            pet.setEhCastrado(false);
-        }
-        if (pet.getEstaInternado() == null){
-            pet.setEstaInternado(false);
+        if (pet.getDono() == null || pet.getDono().getId() == null || pet.getDono().getId() == 0) {
+            throw new RegraNegocioException("Dono inválido");
         }
     }
 }
