@@ -87,7 +87,7 @@ public class ConsultaController {
         if(!pet.isPresent()) {
             throw new RegraNegocioException("Pet não encontrada");
         }
-        cliente.setPet(pet.get());
+        consulta.setPet(pet.get());
         return consulta;
     }
 }
