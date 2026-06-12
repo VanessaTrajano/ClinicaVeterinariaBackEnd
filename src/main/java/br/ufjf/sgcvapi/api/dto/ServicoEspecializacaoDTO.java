@@ -13,8 +13,8 @@ import org.modelmapper.ModelMapper;
 @AllArgsConstructor
 public class ServicoEspecializacaoDTO {
     private Long id;
-    private Servico servico;
-    private Especializacao especializacao;
+    private Long idServico;
+    private Long idEspecializacao;
 
     public static ServicoEspecializacaoDTO create(ServicoEspecializacao servicoEspecializacao){
         ModelMapper modelMapper = new ModelMapper();
