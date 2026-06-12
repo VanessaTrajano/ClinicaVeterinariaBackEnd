@@ -18,7 +18,7 @@ public class VeterinarioEspecializacaoService {
         this.repository = repository;
     }
 
-    public List<VeterinarioEspecializacao> getVeterinarioEspecializacaos() {
+    public List<VeterinarioEspecializacao> getVeterinarioEspecializacoes() {
         return repository.findAll();
     }
 
