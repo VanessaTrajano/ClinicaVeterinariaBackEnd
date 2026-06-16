@@ -87,7 +87,7 @@ public class DisponibilidadeController {
         if(!veterinario.isPresent()) {
             throw new RegraNegocioException("Veterinário não encontrada");
         }
-        cliente.setVeterinario(veterinario.get());
+        disponibilidade.setVeterinario(veterinario.get());
         return disponibilidade;
     }
 }
