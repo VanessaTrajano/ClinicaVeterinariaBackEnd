@@ -16,7 +16,7 @@ public class Pet {
     private Long id;
 
     private String nome;
-    private String data_de_nascimento;
+    private String dataDeNascimento;
     private String sexo;
     private boolean ehCastrado;
     private boolean estaInternado;
