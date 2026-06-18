@@ -18,5 +18,6 @@ public class Disponibilidade {
     private String data;
     private String horario;
 
-    @ManyToOne Veterinario veterinario;
+    @ManyToOne
+    private Veterinario veterinario;
 }
