@@ -1,15 +1,19 @@
 package br.ufjf.sgcvapi.model.entity;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+import jakarta.persistence.*;
+
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Veterinario extends Pessoa{
+public class Especie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String crmv;
+    private String nome;
 }

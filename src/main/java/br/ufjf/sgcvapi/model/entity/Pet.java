@@ -6,21 +6,25 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Pessoa {
-
+public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-    private String cpf;
-    private String email;
-    private String celular;
+    private String data_de_nascimento;
+    private String sexo;
+    private boolean ehCastrado;
+    private boolean estaInternado;
+    private float peso;
 
     @ManyToOne
-    private Endereco endereco;
+    private Raca raca;
+
+    @ManyToOne
+    private Cliente dono;
 }

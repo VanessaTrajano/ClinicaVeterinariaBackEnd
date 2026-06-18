@@ -6,21 +6,18 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Pessoa {
-
+public class ServicoEspecializacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String cpf;
-    private String email;
-    private String celular;
+    @ManyToOne
+    private Servico servico;
 
     @ManyToOne
-    private Endereco endereco;
+    private Especializacao especializacao;
 }

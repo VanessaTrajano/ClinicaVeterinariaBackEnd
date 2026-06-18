@@ -1,26 +1,25 @@
 package br.ufjf.sgcvapi.model.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
-
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-public abstract class Pessoa {
+public class Vacina{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String numLote;
     private String nome;
-    private String cpf;
-    private String email;
-    private String celular;
-
-    @ManyToOne
-    private Endereco endereco;
+    private String descricao;
+    private Float valor;
 }
