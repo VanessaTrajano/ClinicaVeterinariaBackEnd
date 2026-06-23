@@ -17,14 +17,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-//import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Configuration;
 
 //import org.springframework.http.HttpMethod;
 //import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 //import org.springframework.security.config.annotation.web.builders.WebSecurity;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
-
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
 
