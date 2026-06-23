@@ -101,7 +101,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
                 .requestMatchers("/api/v1/vacinas/**")
                     .permitAll()
                 .requestMatchers("/api/v1/veterinarios/**")
-                    .permitAll()
+                    .hasAnyRole("ADMIN")
                 .requestMatchers("/api/v1/veterinarioEspecializacoes/**")
                     .permitAll()
 
