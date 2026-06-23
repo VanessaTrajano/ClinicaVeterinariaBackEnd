@@ -34,10 +34,14 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
     @Autowired
     private JwtService jwtService;
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    // ============================== MOVIDO ============================== //
+    // Estava causando loop entre SecutiryConfig e UsuarioService
+    // -------------------------------------------------------------------- //
+    //    @Bean
+    //    PasswordEncoder passwordEncoder() {
+    //        return new BCryptPasswordEncoder();
+    //    }
+    // ===================================================================== //
 
     @Bean
     public OncePerRequestFilter jwtFilter(){
