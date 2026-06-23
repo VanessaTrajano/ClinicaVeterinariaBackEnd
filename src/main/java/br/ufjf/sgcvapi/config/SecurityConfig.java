@@ -108,6 +108,8 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
                     .hasAnyRole("ADMIN")
                 .requestMatchers("/api/v1/veterinarioEspecializacoes/**")
                     .permitAll()
+                .requestMatchers("/api/v1/usuarios/**")
+                    .permitAll()
 
                 // configure(WebSecurity)
                 .requestMatchers("/v3/api-docs/**",
