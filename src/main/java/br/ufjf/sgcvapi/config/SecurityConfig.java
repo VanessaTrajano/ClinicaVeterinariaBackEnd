@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 //import org.springframework.context.annotation.Configuration;
@@ -58,7 +59,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
     }
 
     @Bean
-    protected void configure(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.disable())
             .csrf(csrf -> csrf.disable())
@@ -118,6 +119,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
             )
             .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
         ;
+        return http.build();
     }
 
     // ============================== LEGADO ============================== //
