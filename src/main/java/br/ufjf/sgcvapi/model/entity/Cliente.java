@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 @Entity
-@NoArgsConstructor
 @AllArgsConstructor
 public class Cliente extends Pessoa{
 

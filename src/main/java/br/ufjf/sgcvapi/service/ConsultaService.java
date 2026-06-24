@@ -42,7 +42,7 @@ public class ConsultaService {
         if (consulta.getQuantDiasInternacao() == null || consulta.getQuantDiasInternacao() == 0) {
             throw new RegraNegocioException("Quantidade de dias de internação inválido");
         }
-        if (consulta.getValor() == null || consulta.getValor() == 0) {
+        if (consulta.getValor() == 0) {
             throw new RegraNegocioException("Valor inválido");
         }
         if (consulta.getStatus() == null || consulta.getStatus().trim().equals("")) {

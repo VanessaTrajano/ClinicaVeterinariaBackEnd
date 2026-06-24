@@ -11,11 +11,11 @@ import org.modelmapper.ModelMapper;
 @AllArgsConstructor
 public class AgendamentoDTO {
     private Long id;
-    private Servico servico;
-    private Disponibilidade disponibilidade;
-    private Pet pet;
-    private Cliente cliente;
-    private Consulta consulta;
+    private Long idServico;
+    private Long idDisponibilidade;
+    private Long idPet;
+    private Long idCliente;
+    private Long idConsulta;
 
     public static AgendamentoDTO create(Agendamento agendamento){
         ModelMapper modelMapper = new ModelMapper();

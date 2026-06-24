@@ -1,12 +1,14 @@
 package br.ufjf.sgcvapi.api.dto;
 
-import br.ufjf.sgcvapi.model.entity.Consulta;
 import br.ufjf.sgcvapi.model.entity.ConsultaVeterinario;
-import br.ufjf.sgcvapi.model.entity.Veterinario;
-import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.ui.ModelMap;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConsultaVeterinarioDTO {
 
     private Long id;

@@ -14,7 +14,7 @@ public class DisponibilidadeDTO {
     private Long id;
     private String data;
     private String horario;
-    private Veterinario veterinario;
+    private long idVeterinario;
 
     public static DisponibilidadeDTO create(Disponibilidade disponibilidade){
         ModelMapper modelMapper = new ModelMapper();

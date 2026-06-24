@@ -13,8 +13,8 @@ import org.modelmapper.ModelMapper;
 @AllArgsConstructor
 public class MedicamentoConsultaDTO {
     private Long id;
-    private Medicamento medicamento;
-    private Consulta consulta;
+    private Long idMedicamento;
+    private Long idConsulta;
 
     public static MedicamentoConsultaDTO create(MedicamentoConsulta medicamentoConsulta){
         ModelMapper modelMapper = new ModelMapper();

@@ -39,7 +39,7 @@ public class MedicamentoService {
     }
 
     public void validar(Medicamento medicamento) {
-        if (medicamento.getValor() == null || medicamento.getValor() == 0) {
+        if (medicamento.getValor() == 0) {
             throw new RegraNegocioException("Valor inválido");
         }
         if (medicamento.getNome() == null || medicamento.getNome().trim().equals("")) {

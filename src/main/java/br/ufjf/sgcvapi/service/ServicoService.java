@@ -39,7 +39,7 @@ public class ServicoService {
     }
 
     public void validar(Servico servico) {
-        if (servico.getValor() == null || servico.getValor() == 0) {
+        if (servico.getValor() == 0) {
             throw new RegraNegocioException("Valor inválido");
         }
         if (servico.getNome() == null || servico.getNome().trim().equals("")) {
@@ -47,12 +47,6 @@ public class ServicoService {
         }
         if (servico.getDescricao() == null || servico.getDescricao().trim().equals("")) {
             throw new RegraNegocioException("Descrição inválido");
-        }
-        if (servico.getVacinaEhObrigatorio() == null){
-            servico.setVacinaEhObrigatorio(false);
-        }
-        if (servico.getMedicamentoEhObrigatorio() == null){
-            servico.setMedicamentoEhObrigatorio(false);
         }
     }
 }
