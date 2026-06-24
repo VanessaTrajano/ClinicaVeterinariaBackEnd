@@ -26,12 +26,13 @@ public class SwaggerConfig {
                         )
                 )
 
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .addSecurityItem(new SecurityRequirement().addList("JWT"))
                 .components(new Components()
-                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
-                                .name("bearerAuth")
+                        .addSecuritySchemes("JWT", new SecurityScheme()
+                                .name("Authorization")
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
+                                .in(SecurityScheme.In.HEADER)
                                 .bearerFormat("JWT")
                         )
                 );
