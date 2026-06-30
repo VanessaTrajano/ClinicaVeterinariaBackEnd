@@ -2,6 +2,7 @@ package br.ufjf.sgcvapi.service;
 
 import br.ufjf.sgcvapi.exception.RegraNegocioException;
 import br.ufjf.sgcvapi.model.entity.Consulta;
+import br.ufjf.sgcvapi.model.entity.Pet;
 import br.ufjf.sgcvapi.model.repository.ConsultaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +15,11 @@ import java.util.Optional;
 public class ConsultaService {
     private ConsultaRepository repository;
 
-    public ConsultaService(ConsultaRepository repository) {
+    private final PetService petService;
+
+    public ConsultaService(ConsultaRepository repository, PetService petService) {
         this.repository = repository;
+        this.petService = petService;
     }
 
     public List<Consulta> getConsultas() {
@@ -28,8 +32,23 @@ public class ConsultaService {
 
     @Transactional
     public Consulta salvar(Consulta consulta) {
+
+        if (consulta.getId() == null) {
+            consulta.setValor(0);
+        }
+
         validar(consulta);
-        return repository.save(consulta);
+
+        Consulta consultaSalva = repository.save(consulta);
+        if (consultaSalva.getQuantDiasInternacao() != null && consultaSalva.getQuantDiasInternacao() > 0) {
+            Pet pet = consultaSalva.getPet();
+            if (pet != null) {
+                pet.setEstaInternado(true);
+                petService.salvar(pet);
+            }
+        }
+
+        return consultaSalva;
     }
 
     @Transactional
@@ -39,16 +58,19 @@ public class ConsultaService {
     }
 
     public void validar(Consulta consulta) {
-        if (consulta.getQuantDiasInternacao() == null || consulta.getQuantDiasInternacao() == 0) {
+        if (consulta.getQuantDiasInternacao() == null || consulta.getQuantDiasInternacao() < 0) {
             throw new RegraNegocioException("Quantidade de dias de internação inválido");
         }
-        if (consulta.getValor() == 0) {
-            throw new RegraNegocioException("Valor inválido");
+        if (consulta.getId() == null && consulta.getValor() != 0) {
+            throw new RegraNegocioException("Uma nova consulta deve ser criada inicialmente com o valor zerado.");
+        }
+        if (consulta.getValor() < 0) {
+            throw new RegraNegocioException("O valor da consulta não pode ser negativo.");
         }
         if (consulta.getStatus() == null || consulta.getStatus().trim().equals("")) {
             throw new RegraNegocioException("Status inválido");
         }
-        if (consulta.getMotivoInternacao() == null || consulta.getMotivoInternacao().trim().equals("")) {
+        if (consulta.getQuantDiasInternacao() > 0 && (consulta.getMotivoInternacao() == null || consulta.getMotivoInternacao().trim().equals(""))) {
             throw new RegraNegocioException("Motivo da Internação inválido");
         }
         if (consulta.getDiagnostico() == null || consulta.getDiagnostico().trim().equals("")) {
