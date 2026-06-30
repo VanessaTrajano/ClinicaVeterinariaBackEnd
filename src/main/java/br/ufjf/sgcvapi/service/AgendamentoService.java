@@ -43,7 +43,7 @@ public class AgendamentoService {
             throw new RegraNegocioException("Servico inválido");
         }
         if (agendamento.getDisponibilidade() == null || agendamento.getDisponibilidade().getId() == null || agendamento.getDisponibilidade().getId() == 0) {
-            throw new RegraNegocioException("Disponibilidade inválido");
+            throw new RegraNegocioException("Disponibilidade inválida");
         }
         if (agendamento.getPet() == null || agendamento.getPet().getId() == null || agendamento.getPet().getId() == 0) {
             throw new RegraNegocioException("Pet inválido");
@@ -52,7 +52,7 @@ public class AgendamentoService {
             throw new RegraNegocioException("Cliente inválido");
         }
         if (agendamento.getConsulta() == null || agendamento.getConsulta().getId() == null || agendamento.getConsulta().getId() == 0) {
-            throw new RegraNegocioException("Consulta inválido");
+            throw new RegraNegocioException("Consulta inválida");
         }
     }
 }

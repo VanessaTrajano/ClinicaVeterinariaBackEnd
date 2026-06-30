@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.VacinaConsulta;
 import br.ufjf.sgcvapi.service.ConsultaService;
 import br.ufjf.sgcvapi.service.VacinaConsultaService;
 import br.ufjf.sgcvapi.service.VacinaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/vacinaConsultas")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "VacinaConsultas", description = "Operações relacionadas à ligação de vacinas e consultas existentes")
 public class VacinaConsultaController {
 
     private final VacinaConsultaService service;
@@ -29,12 +32,14 @@ public class VacinaConsultaController {
     private final ConsultaService consultaService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as vacinaConsultas")
     public ResponseEntity get() {
         List<VacinaConsulta> vacinaConsultas = service.getVacinaConsultas();
         return ResponseEntity.ok(vacinaConsultas.stream().map(VacinaConsultaDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma vacinaConsulta pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<VacinaConsulta> vacinaConsulta = service.getVacinaConsultaById(id);
         if (!vacinaConsulta.isPresent()) {
@@ -44,6 +49,7 @@ public class VacinaConsultaController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova vacinaConsulta")
     public ResponseEntity post(@RequestBody VacinaConsultaDTO dto) {
         try {
             VacinaConsulta vacinaConsulta = converter(dto);
@@ -55,6 +61,7 @@ public class VacinaConsultaController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza dados de uma vacinaConsulta existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VacinaConsultaDTO dto) {
         if (!service.getVacinaConsultaById(id).isPresent()) {
             return new ResponseEntity("VacinaConsulta não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +77,7 @@ public class VacinaConsultaController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma vacinaConsulta")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<VacinaConsulta> vacinaConsulta = service.getVacinaConsultaById(id);
         if (!vacinaConsulta.isPresent()) {

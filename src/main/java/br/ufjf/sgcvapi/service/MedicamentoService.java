@@ -49,7 +49,7 @@ public class MedicamentoService {
             throw new RegraNegocioException("IUM inválido");
         }
         if (medicamento.getDescricao() == null || medicamento.getDescricao().trim().equals("")) {
-            throw new RegraNegocioException("Descrição inválido");
+            throw new RegraNegocioException("Descrição inválida");
         }
     }
 }

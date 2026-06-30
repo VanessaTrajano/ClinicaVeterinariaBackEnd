@@ -6,6 +6,8 @@ import br.ufjf.sgcvapi.model.entity.Disponibilidade;
 import br.ufjf.sgcvapi.model.entity.Veterinario;
 import br.ufjf.sgcvapi.service.DisponibilidadeService;
 import br.ufjf.sgcvapi.service.VeterinarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -20,18 +22,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/disponibilidades")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Disponibilidades", description = "Operações relacionadas a disponibilidades de veterinários")
 public class DisponibilidadeController {
 
     private final DisponibilidadeService service;
     private final VeterinarioService veterinarioService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as disponibilidades")
     public ResponseEntity get() {
         List<Disponibilidade> disponibilidades = service.getDisponibilidades();
         return ResponseEntity.ok(disponibilidades.stream().map(DisponibilidadeDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma disponibilidade pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Disponibilidade> disponibilidade = service.getDisponibilidadeById(id);
         if (!disponibilidade.isPresent()) {
@@ -41,6 +46,7 @@ public class DisponibilidadeController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova disponibilidade")
     public ResponseEntity post(@RequestBody DisponibilidadeDTO dto) {
         try {
             Disponibilidade disponibilidade = converter(dto);
@@ -52,6 +58,7 @@ public class DisponibilidadeController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de uma disponibilidade existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody DisponibilidadeDTO dto) {
         if (!service.getDisponibilidadeById(id).isPresent()) {
             return new ResponseEntity("Disponibilidade não encontrada", HttpStatus.NOT_FOUND);
@@ -67,6 +74,7 @@ public class DisponibilidadeController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma disponibilidade")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Disponibilidade> disponibilidade = service.getDisponibilidadeById(id);
         if (!disponibilidade.isPresent()) {
@@ -85,7 +93,7 @@ public class DisponibilidadeController {
         Disponibilidade disponibilidade = modelMapper.map(dto, Disponibilidade.class);
         Optional<Veterinario> veterinario = veterinarioService.getVeterinarioById(dto.getIdVeterinario());
         if(!veterinario.isPresent()) {
-            throw new RegraNegocioException("Veterinário não encontrada");
+            throw new RegraNegocioException("Veterinário não encontrado");
         }
         disponibilidade.setVeterinario(veterinario.get());
         return disponibilidade;
