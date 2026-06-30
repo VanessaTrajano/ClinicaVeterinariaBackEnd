@@ -4,6 +4,8 @@ import br.ufjf.sgcvapi.api.dto.EnderecoDTO;
 import br.ufjf.sgcvapi.exception.RegraNegocioException;
 import br.ufjf.sgcvapi.model.entity.Endereco;
 import br.ufjf.sgcvapi.service.EnderecoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -18,17 +20,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/enderecos")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Endereços", description = "Operações relacionadas a endereços")
 public class EnderecoController {
 
     private final EnderecoService service;
 
     @GetMapping()
+    @Operation(summary = "Lista todas os endereços")
     public ResponseEntity get() {
         List<Endereco> enderecos = service.getEnderecos();
         return ResponseEntity.ok(enderecos.stream().map(EnderecoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um endereço pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Endereco> endereco = service.getEnderecoById(id);
         if (!endereco.isPresent()) {
@@ -38,6 +43,7 @@ public class EnderecoController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo endereço")
     public ResponseEntity post(@RequestBody EnderecoDTO dto) {
         try {
             Endereco endereco = converter(dto);
@@ -49,6 +55,7 @@ public class EnderecoController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de um endereço existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody EnderecoDTO dto) {
         if (!service.getEnderecoById(id).isPresent()) {
             return new ResponseEntity("Endereco não encontrada", HttpStatus.NOT_FOUND);
@@ -64,6 +71,7 @@ public class EnderecoController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um endereço")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Endereco> endereco = service.getEnderecoById(id);
         if (!endereco.isPresent()) {

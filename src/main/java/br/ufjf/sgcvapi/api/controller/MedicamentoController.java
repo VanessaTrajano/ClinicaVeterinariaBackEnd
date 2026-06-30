@@ -4,6 +4,8 @@ import br.ufjf.sgcvapi.api.dto.MedicamentoDTO;
 import br.ufjf.sgcvapi.exception.RegraNegocioException;
 import br.ufjf.sgcvapi.model.entity.Medicamento;
 import br.ufjf.sgcvapi.service.MedicamentoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -18,26 +20,30 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/medicamentos")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Medicamentos", description = "Operações relacionadas a medicamentos")
 public class MedicamentoController {
 
     private final MedicamentoService service;
 
     @GetMapping()
+    @Operation(summary = "Lista todas os medicamentos")
     public ResponseEntity get() {
         List<Medicamento> medicamentos = service.getMedicamentos();
         return ResponseEntity.ok(medicamentos.stream().map(MedicamentoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um medicamento pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Medicamento> medicamento = service.getMedicamentoById(id);
         if (!medicamento.isPresent()) {
-            return new ResponseEntity("Medicamento não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Medicamento não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(medicamento.map(MedicamentoDTO::create));
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo medicamento")
     public ResponseEntity post(@RequestBody MedicamentoDTO dto) {
         try {
             Medicamento medicamento = converter(dto);
@@ -49,6 +55,7 @@ public class MedicamentoController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de um medicamento existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MedicamentoDTO dto) {
         if (!service.getMedicamentoById(id).isPresent()) {
             return new ResponseEntity("Medicamento não encontrada", HttpStatus.NOT_FOUND);
@@ -64,6 +71,7 @@ public class MedicamentoController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um medicamento")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Medicamento> medicamento = service.getMedicamentoById(id);
         if (!medicamento.isPresent()) {

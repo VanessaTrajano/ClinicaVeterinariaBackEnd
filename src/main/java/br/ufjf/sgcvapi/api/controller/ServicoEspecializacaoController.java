@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.ServicoEspecializacao;
 import br.ufjf.sgcvapi.service.EspecializacaoService;
 import br.ufjf.sgcvapi.service.ServicoEspecializacaoService;
 import br.ufjf.sgcvapi.service.ServicoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -19,9 +21,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/servicoEspecializacaos")
+@RequestMapping("/api/v1/servicoEspecializacoes")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "ServicoEspecializacoes", description = "Operações relacionadas à ligações de serviços e especializações já cadastradas")
 public class ServicoEspecializacaoController {
 
     private final ServicoEspecializacaoService service;
@@ -29,12 +32,14 @@ public class ServicoEspecializacaoController {
     private final EspecializacaoService especializacaoService;
 
     @GetMapping()
+    @Operation(summary = "Lista todos os servicoEspecializacoes")
     public ResponseEntity get() {
         List<ServicoEspecializacao> servicoEspecializacaos = service.getServicoEspecializacaos();
         return ResponseEntity.ok(servicoEspecializacaos.stream().map(ServicoEspecializacaoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um servicoEspecializacao pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ServicoEspecializacao> servicoEspecializacao = service.getServicoEspecializacaoById(id);
         if (!servicoEspecializacao.isPresent()) {
@@ -44,6 +49,7 @@ public class ServicoEspecializacaoController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo servicoEspecializacao")
     public ResponseEntity post(@RequestBody ServicoEspecializacaoDTO dto) {
         try {
             ServicoEspecializacao servicoEspecializacao = converter(dto);
@@ -55,6 +61,7 @@ public class ServicoEspecializacaoController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza dados de um servicoEspecializacao existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ServicoEspecializacaoDTO dto) {
         if (!service.getServicoEspecializacaoById(id).isPresent()) {
             return new ResponseEntity("ServicoEspecializacao não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +77,7 @@ public class ServicoEspecializacaoController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um servicoEspecializacao")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<ServicoEspecializacao> servicoEspecializacao = service.getServicoEspecializacaoById(id);
         if (!servicoEspecializacao.isPresent()) {

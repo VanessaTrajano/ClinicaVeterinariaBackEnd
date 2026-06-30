@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.MedicamentoPet;
 import br.ufjf.sgcvapi.service.MedicamentoPetService;
 import br.ufjf.sgcvapi.service.MedicamentoService;
 import br.ufjf.sgcvapi.service.PetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/medicamentoPets")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "MedicamentoPets", description = "Operações relacionadas à ligação de medicamentos e pets já existentes, se referenciando à alergias dos pets")
 public class MedicamentoPetController {
 
     private final MedicamentoPetService service;
@@ -29,12 +32,14 @@ public class MedicamentoPetController {
     private final PetService petService;
 
     @GetMapping()
+    @Operation(summary = "Lista todos os MedicamentoPets")
     public ResponseEntity get() {
         List<MedicamentoPet> medicamentoPets = service.getMedicamentoPets();
         return ResponseEntity.ok(medicamentoPets.stream().map(MedicamentoPetDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um MedicamentoPet pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<MedicamentoPet> medicamentoPet = service.getMedicamentoPetById(id);
         if (!medicamentoPet.isPresent()) {
@@ -44,6 +49,7 @@ public class MedicamentoPetController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo MedicamentoPet")
     public ResponseEntity post(@RequestBody MedicamentoPetDTO dto) {
         try {
             MedicamentoPet medicamentoPet = converter(dto);
@@ -55,6 +61,7 @@ public class MedicamentoPetController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de um MedicamentoPet existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MedicamentoPetDTO dto) {
         if (!service.getMedicamentoPetById(id).isPresent()) {
             return new ResponseEntity("MedicamentoPet não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +77,7 @@ public class MedicamentoPetController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um MedicamentoPet")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<MedicamentoPet> medicamentoPet = service.getMedicamentoPetById(id);
         if (!medicamentoPet.isPresent()) {

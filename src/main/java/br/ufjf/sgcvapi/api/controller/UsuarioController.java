@@ -6,6 +6,8 @@ import br.ufjf.sgcvapi.exception.SenhaInvalidaException;
 import br.ufjf.sgcvapi.model.entity.Usuario;
 import br.ufjf.sgcvapi.security.JwtService;
 import br.ufjf.sgcvapi.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Usuários", description = "Operações relacionadas a usuários")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
@@ -33,12 +36,14 @@ public class UsuarioController {
     private final UsuarioService service;
 
     @GetMapping()
+    @Operation(summary = "Lista todas os usuários")
     public ResponseEntity get() {
         List<Usuario> usuarios = service.getUsuarios();
         return ResponseEntity.ok(usuarios.stream().map(UsuarioDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um usuário pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Usuario> usuario = service.getUsuarioById(id);
         if (!usuario.isPresent()) {
@@ -48,6 +53,7 @@ public class UsuarioController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo usuário")
     public ResponseEntity post(@RequestBody UsuarioDTO dto) {
         try {
             if (dto.getSenha() == null || dto.getSenha().trim().equals("") ||
@@ -68,6 +74,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/auth")
+    @Operation(summary = "Faz login em usuário previamente criado")
     public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciais){
         try{
             Usuario usuario = Usuario.builder()
@@ -82,6 +89,7 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de um usuário existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody UsuarioDTO dto) {
         if (!service.getUsuarioById(id).isPresent()) {
             return new ResponseEntity("Usuário não encontrado", HttpStatus.NOT_FOUND);
@@ -104,6 +112,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um usuário")
     public ResponseEntity delete(@PathVariable("id") Long id) {
         Optional<Usuario> usuario = service.getUsuarioById(id);
         if (!usuario.isPresent()) {

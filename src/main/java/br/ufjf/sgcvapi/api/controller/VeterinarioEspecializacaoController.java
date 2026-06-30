@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.VeterinarioEspecializacao;
 import br.ufjf.sgcvapi.service.EspecializacaoService;
 import br.ufjf.sgcvapi.service.VeterinarioEspecializacaoService;
 import br.ufjf.sgcvapi.service.VeterinarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/veterinarioEspecializacoes")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "VeterinarioEspecializacoes", description = "Operações relacionadas à ligação de veterinários e especializações já cadastradas")
 public class VeterinarioEspecializacaoController {
 
     private final VeterinarioEspecializacaoService service;
@@ -35,6 +38,7 @@ public class VeterinarioEspecializacaoController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Lista todos os veterinarioEspecializacoes")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<VeterinarioEspecializacao> veterinarioEspecializacao = service.getVeterinarioEspecializacaoById(id);
         if (!veterinarioEspecializacao.isPresent()) {
@@ -44,6 +48,7 @@ public class VeterinarioEspecializacaoController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo veterinarioEspecializacao")
     public ResponseEntity post(@RequestBody VeterinarioEspecializacaoDTO dto) {
         try {
             VeterinarioEspecializacao veterinarioEspecializacao = converter(dto);
@@ -55,6 +60,7 @@ public class VeterinarioEspecializacaoController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de um veterinarioEspecializacao existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VeterinarioEspecializacaoDTO dto) {
         if (!service.getVeterinarioEspecializacaoById(id).isPresent()) {
             return new ResponseEntity("VeterinarioEspecializacao não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +76,7 @@ public class VeterinarioEspecializacaoController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um veterinarioEspecializacao")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<VeterinarioEspecializacao> veterinarioEspecializacao = service.getVeterinarioEspecializacaoById(id);
         if (!veterinarioEspecializacao.isPresent()) {
@@ -88,7 +95,7 @@ public class VeterinarioEspecializacaoController {
         VeterinarioEspecializacao veterinarioEspecializacao = modelMapper.map(dto, VeterinarioEspecializacao.class);
         Optional<Veterinario> veterinario = veterinarioService.getVeterinarioById(dto.getIdVeterinario());
         if(!veterinario.isPresent()) {
-            throw new RegraNegocioException("Veterinário não encontrada");
+            throw new RegraNegocioException("Veterinário não encontrado");
         }
         veterinarioEspecializacao.setVeterinario(veterinario.get());
         Optional<Especializacao> especializacao = especializacaoService.getEspecializacaoById(dto.getIdEspecializacao());

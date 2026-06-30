@@ -6,6 +6,8 @@ import br.ufjf.sgcvapi.model.entity.Cliente;
 import br.ufjf.sgcvapi.model.entity.Endereco;
 import br.ufjf.sgcvapi.service.ClienteService;
 import br.ufjf.sgcvapi.service.EnderecoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -20,18 +22,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/clientes")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Clientes", description = "Operações relacionadas a clientes")
 public class ClienteController {
 
     private final ClienteService service;
     private final EnderecoService enderecoService;
 
     @GetMapping()
+    @Operation(summary = "Lista todos os clientes")
     public ResponseEntity get() {
         List<Cliente> clientes = service.getClientes();
         return ResponseEntity.ok(clientes.stream().map(ClienteDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um cliente por ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
@@ -41,6 +46,7 @@ public class ClienteController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo cliente")
     public ResponseEntity post(@RequestBody ClienteDTO dto) {
         try {
             Cliente cliente = converter(dto);
@@ -52,6 +58,7 @@ public class ClienteController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de um cliente existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ClienteDTO dto) {
         if (!service.getClienteById(id).isPresent()) {
             return new ResponseEntity("Cliente não encontrada", HttpStatus.NOT_FOUND);
@@ -67,6 +74,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um cliente")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {

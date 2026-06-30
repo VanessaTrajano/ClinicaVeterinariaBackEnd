@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.Consulta;
 import br.ufjf.sgcvapi.service.ConsultaService;
 import br.ufjf.sgcvapi.service.MedicamentoConsultaService;
 import br.ufjf.sgcvapi.service.MedicamentoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/medicamentoConsultas")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "MedicamentoConsultas", description = "Operações relacionadas à ligação de medicamentos e consultas já cadastrados")
 public class MedicamentoConsultaController {
 
     private final MedicamentoConsultaService service;
@@ -29,12 +32,14 @@ public class MedicamentoConsultaController {
     private final ConsultaService consultaService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas os MedicamentoConsultas")
     public ResponseEntity get() {
         List<MedicamentoConsulta> medicamentoConsultas = service.getMedicamentoConsultas();
         return ResponseEntity.ok(medicamentoConsultas.stream().map(MedicamentoConsultaDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta um MedicamentoConsulta por ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<MedicamentoConsulta> medicamentoConsulta = service.getMedicamentoConsultaById(id);
         if (!medicamentoConsulta.isPresent()) {
@@ -44,6 +49,7 @@ public class MedicamentoConsultaController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra um novo MedicamentoConsulta")
     public ResponseEntity post(@RequestBody MedicamentoConsultaDTO dto) {
         try {
             MedicamentoConsulta medicamentoConsulta = converter(dto);
@@ -55,6 +61,7 @@ public class MedicamentoConsultaController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza dados de um MedicamentoConsulta existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MedicamentoConsultaDTO dto) {
         if (!service.getMedicamentoConsultaById(id).isPresent()) {
             return new ResponseEntity("MedicamentoConsulta não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +77,7 @@ public class MedicamentoConsultaController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui um MedicamentoConsulta")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<MedicamentoConsulta> medicamentoConsulta = service.getMedicamentoConsultaById(id);
         if (!medicamentoConsulta.isPresent()) {

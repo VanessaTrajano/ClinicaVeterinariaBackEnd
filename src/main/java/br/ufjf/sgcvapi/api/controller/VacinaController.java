@@ -4,6 +4,8 @@ import br.ufjf.sgcvapi.api.dto.VacinaDTO;
 import br.ufjf.sgcvapi.exception.RegraNegocioException;
 import br.ufjf.sgcvapi.model.entity.Vacina;
 import br.ufjf.sgcvapi.service.VacinaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -18,17 +20,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/vacinas")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Vacinas", description = "Operações relacionadas a vacinas")
 public class VacinaController {
 
     private final VacinaService service;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as vacinas")
     public ResponseEntity get() {
         List<Vacina> vacinas = service.getVacinas();
         return ResponseEntity.ok(vacinas.stream().map(VacinaDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma vacina pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Vacina> vacina = service.getVacinaById(id);
         if (!vacina.isPresent()) {
@@ -38,6 +43,7 @@ public class VacinaController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova vacina")
     public ResponseEntity post(@RequestBody VacinaDTO dto) {
         try {
             Vacina vacina = converter(dto);
@@ -49,6 +55,7 @@ public class VacinaController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza dados de uma vacina existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VacinaDTO dto) {
         if (!service.getVacinaById(id).isPresent()) {
             return new ResponseEntity("Vacina não encontrada", HttpStatus.NOT_FOUND);
@@ -64,6 +71,7 @@ public class VacinaController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma vacina")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Vacina> vacina = service.getVacinaById(id);
         if (!vacina.isPresent()) {
