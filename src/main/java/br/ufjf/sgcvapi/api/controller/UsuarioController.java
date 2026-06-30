@@ -36,7 +36,7 @@ public class UsuarioController {
     private final UsuarioService service;
 
     @GetMapping()
-    @Operation(summary = "Lista todas os usuários")
+    @Operation(summary = "Lista todos os usuários")
     public ResponseEntity get() {
         List<Usuario> usuarios = service.getUsuarios();
         return ResponseEntity.ok(usuarios.stream().map(UsuarioDTO::create).collect(Collectors.toList()));

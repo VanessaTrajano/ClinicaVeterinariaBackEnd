@@ -75,7 +75,7 @@ public class ServicoController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Servico> servico = service.getServicoById(id);
         if (!servico.isPresent()) {
-            return new ResponseEntity("Servico não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Servico não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(servico.get());

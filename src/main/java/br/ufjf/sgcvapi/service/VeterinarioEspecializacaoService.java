@@ -43,7 +43,7 @@ public class VeterinarioEspecializacaoService {
             throw new RegraNegocioException("Veterinario inválido");
         }
         if (veterinarioEspecializacao.getEspecializacao() == null || veterinarioEspecializacao.getEspecializacao().getId() == null || veterinarioEspecializacao.getEspecializacao().getId() == 0) {
-            throw new RegraNegocioException("Especialização inválido");
+            throw new RegraNegocioException("Especialização inválida");
         }
     }
 }

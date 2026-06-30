@@ -29,7 +29,7 @@ public class DisponibilidadeController {
     private final VeterinarioService veterinarioService;
 
     @GetMapping()
-    @Operation(summary = "Lista todos as disponibilidades")
+    @Operation(summary = "Lista todas as disponibilidades")
     public ResponseEntity get() {
         List<Disponibilidade> disponibilidades = service.getDisponibilidades();
         return ResponseEntity.ok(disponibilidades.stream().map(DisponibilidadeDTO::create).collect(Collectors.toList()));
@@ -93,7 +93,7 @@ public class DisponibilidadeController {
         Disponibilidade disponibilidade = modelMapper.map(dto, Disponibilidade.class);
         Optional<Veterinario> veterinario = veterinarioService.getVeterinarioById(dto.getIdVeterinario());
         if(!veterinario.isPresent()) {
-            throw new RegraNegocioException("Veterinário não encontrada");
+            throw new RegraNegocioException("Veterinário não encontrado");
         }
         disponibilidade.setVeterinario(veterinario.get());
         return disponibilidade;

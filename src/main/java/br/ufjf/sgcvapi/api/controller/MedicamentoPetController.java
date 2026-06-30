@@ -43,7 +43,7 @@ public class MedicamentoPetController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<MedicamentoPet> medicamentoPet = service.getMedicamentoPetById(id);
         if (!medicamentoPet.isPresent()) {
-            return new ResponseEntity("MedicamentoPet não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("MedicamentoPet não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(medicamentoPet.map(MedicamentoPetDTO::create));
     }
@@ -64,7 +64,7 @@ public class MedicamentoPetController {
     @Operation(summary = "Atualiza os dados de um MedicamentoPet existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MedicamentoPetDTO dto) {
         if (!service.getMedicamentoPetById(id).isPresent()) {
-            return new ResponseEntity("MedicamentoPet não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("MedicamentoPet não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             MedicamentoPet medicamentoPet = converter(dto);
@@ -81,7 +81,7 @@ public class MedicamentoPetController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<MedicamentoPet> medicamentoPet = service.getMedicamentoPetById(id);
         if (!medicamentoPet.isPresent()) {
-            return new ResponseEntity("MedicamentoPet não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("MedicamentoPet não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(medicamentoPet.get());
@@ -96,12 +96,12 @@ public class MedicamentoPetController {
         MedicamentoPet medicamentoPet = modelMapper.map(dto, MedicamentoPet.class);
         Optional<Medicamento> medicamento = medicamentoService.getMedicamentoById(dto.getIdAlergia());
         if(!medicamento.isPresent()) {
-            throw new RegraNegocioException("Medicamento não encontrada");
+            throw new RegraNegocioException("Medicamento não encontrado");
         }
         medicamentoPet.setAlergia(medicamento.get());
         Optional<Pet> pet = petService.getPetById(dto.getIdPet());
         if(!pet.isPresent()) {
-            throw new RegraNegocioException("Pet não encontrada");
+            throw new RegraNegocioException("Pet não encontrado");
         }
         medicamentoPet.setPet(pet.get());
         return medicamentoPet;

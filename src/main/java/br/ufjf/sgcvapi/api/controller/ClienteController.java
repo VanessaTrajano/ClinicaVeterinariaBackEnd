@@ -40,7 +40,7 @@ public class ClienteController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
-            return new ResponseEntity("Cliente não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(cliente.map(ClienteDTO::create));
     }
@@ -61,7 +61,7 @@ public class ClienteController {
     @Operation(summary = "Atualiza os dados de um cliente existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ClienteDTO dto) {
         if (!service.getClienteById(id).isPresent()) {
-            return new ResponseEntity("Cliente não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             Cliente cliente = converter(dto);
@@ -78,7 +78,7 @@ public class ClienteController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Cliente> cliente = service.getClienteById(id);
         if (!cliente.isPresent()) {
-            return new ResponseEntity("Cliente não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(cliente.get());
@@ -93,7 +93,7 @@ public class ClienteController {
         Cliente cliente = modelMapper.map(dto, Cliente.class);
         Optional<Endereco> endereco = enderecoService.getEnderecoById(dto.getIdEndereco());
         if(!endereco.isPresent()) {
-            throw new RegraNegocioException("Endereço não encontrada");
+            throw new RegraNegocioException("Endereço não encontrado");
         }
         cliente.setEndereco(endereco.get());
         return cliente;

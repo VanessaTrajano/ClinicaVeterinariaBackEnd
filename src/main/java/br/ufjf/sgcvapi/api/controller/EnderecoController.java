@@ -26,7 +26,7 @@ public class EnderecoController {
     private final EnderecoService service;
 
     @GetMapping()
-    @Operation(summary = "Lista todas os endereços")
+    @Operation(summary = "Lista todos os endereços")
     public ResponseEntity get() {
         List<Endereco> enderecos = service.getEnderecos();
         return ResponseEntity.ok(enderecos.stream().map(EnderecoDTO::create).collect(Collectors.toList()));
@@ -37,7 +37,7 @@ public class EnderecoController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Endereco> endereco = service.getEnderecoById(id);
         if (!endereco.isPresent()) {
-            return new ResponseEntity("Endereco não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Endereco não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(endereco.map(EnderecoDTO::create));
     }
@@ -58,7 +58,7 @@ public class EnderecoController {
     @Operation(summary = "Atualiza os dados de um endereço existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody EnderecoDTO dto) {
         if (!service.getEnderecoById(id).isPresent()) {
-            return new ResponseEntity("Endereco não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Endereco não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             Endereco endereco = converter(dto);
@@ -75,7 +75,7 @@ public class EnderecoController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Endereco> endereco = service.getEnderecoById(id);
         if (!endereco.isPresent()) {
-            return new ResponseEntity("Endereco não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Endereco não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(endereco.get());

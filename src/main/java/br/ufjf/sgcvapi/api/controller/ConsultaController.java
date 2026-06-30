@@ -29,7 +29,7 @@ public class ConsultaController {
     private final PetService petService;
 
     @GetMapping()
-    @Operation(summary = "Lista todos as consultas")
+    @Operation(summary = "Lista todas as consultas")
     public ResponseEntity get() {
         List<Consulta> consultas = service.getConsultas();
         return ResponseEntity.ok(consultas.stream().map(ConsultaDTO::create).collect(Collectors.toList()));
@@ -93,7 +93,7 @@ public class ConsultaController {
         Consulta consulta = modelMapper.map(dto, Consulta.class);
         Optional<Pet> pet = petService.getPetById(dto.getIdPet());
         if(!pet.isPresent()) {
-            throw new RegraNegocioException("Pet não encontrada");
+            throw new RegraNegocioException("Pet não encontrado");
         }
         consulta.setPet(pet.get());
         return consulta;

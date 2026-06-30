@@ -32,7 +32,7 @@ public class MedicamentoConsultaController {
     private final ConsultaService consultaService;
 
     @GetMapping()
-    @Operation(summary = "Lista todas os MedicamentoConsultas")
+    @Operation(summary = "Lista todos os MedicamentoConsultas")
     public ResponseEntity get() {
         List<MedicamentoConsulta> medicamentoConsultas = service.getMedicamentoConsultas();
         return ResponseEntity.ok(medicamentoConsultas.stream().map(MedicamentoConsultaDTO::create).collect(Collectors.toList()));
@@ -43,7 +43,7 @@ public class MedicamentoConsultaController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<MedicamentoConsulta> medicamentoConsulta = service.getMedicamentoConsultaById(id);
         if (!medicamentoConsulta.isPresent()) {
-            return new ResponseEntity("MedicamentoConsulta não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("MedicamentoConsulta não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(medicamentoConsulta.map(MedicamentoConsultaDTO::create));
     }
@@ -64,7 +64,7 @@ public class MedicamentoConsultaController {
     @Operation(summary = "Atualiza dados de um MedicamentoConsulta existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MedicamentoConsultaDTO dto) {
         if (!service.getMedicamentoConsultaById(id).isPresent()) {
-            return new ResponseEntity("MedicamentoConsulta não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("MedicamentoConsulta não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             MedicamentoConsulta medicamentoConsulta = converter(dto);
@@ -81,7 +81,7 @@ public class MedicamentoConsultaController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<MedicamentoConsulta> medicamentoConsulta = service.getMedicamentoConsultaById(id);
         if (!medicamentoConsulta.isPresent()) {
-            return new ResponseEntity("MedicamentoConsulta não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("MedicamentoConsulta não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(medicamentoConsulta.get());
@@ -96,7 +96,7 @@ public class MedicamentoConsultaController {
         MedicamentoConsulta medicamentoConsulta = modelMapper.map(dto, MedicamentoConsulta.class);
         Optional<Medicamento> medicamento = medicamentoService.getMedicamentoById(dto.getIdMedicamento());
         if(!medicamento.isPresent()) {
-            throw new RegraNegocioException("Medicamento não encontrada");
+            throw new RegraNegocioException("Medicamento não encontrado");
         }
         medicamentoConsulta.setMedicamento(medicamento.get());
         Optional<Consulta> consulta = consultaService.getConsultaById(dto.getIdConsulta());

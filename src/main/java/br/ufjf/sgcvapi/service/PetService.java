@@ -52,7 +52,7 @@ public class PetService {
             throw new RegraNegocioException("Sexo inválido");
         }
         if (pet.getRaca() == null || pet.getRaca().getId() == null || pet.getRaca().getId() == 0) {
-            throw new RegraNegocioException("Raça inválido");
+            throw new RegraNegocioException("Raça inválida");
         }
         if (pet.getDono() == null || pet.getDono().getId() == null || pet.getDono().getId() == 0) {
             throw new RegraNegocioException("Dono inválido");

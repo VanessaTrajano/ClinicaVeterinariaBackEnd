@@ -32,7 +32,7 @@ public class ConsultaVeterinarioController {
     private final VeterinarioService veterinarioService;
 
     @GetMapping()
-    @Operation(summary = "Lista todos as ConsultaVeterinarios")
+    @Operation(summary = "Lista todas as ConsultaVeterinarios")
     public ResponseEntity get() {
         List<ConsultaVeterinario> consultaVeterinarios = service.getConsultaVeterinarios();
         return ResponseEntity.ok(consultaVeterinarios.stream().map(ConsultaVeterinarioDTO::create).collect(Collectors.toList()));
@@ -101,7 +101,7 @@ public class ConsultaVeterinarioController {
         consultaVeterinario.setConsulta(consulta.get());
         Optional<Veterinario> veterinario = veterinarioService.getVeterinarioById(dto.getIdVeterinario());
         if(!veterinario.isPresent()) {
-            throw new RegraNegocioException("Veterinário não encontrada");
+            throw new RegraNegocioException("Veterinário não encontrado");
         }
         consultaVeterinario.setVeterinario(veterinario.get());
         return consultaVeterinario;

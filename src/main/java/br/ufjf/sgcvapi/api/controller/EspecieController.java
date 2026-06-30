@@ -37,7 +37,7 @@ public class EspecieController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Especie> especie = service.getEspecieById(id);
         if (!especie.isPresent()) {
-            return new ResponseEntity("Especie não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Espécie não encontrada", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(especie.map(EspecieDTO::create));
     }
@@ -58,7 +58,7 @@ public class EspecieController {
     @Operation(summary = "Atualiza os dados de uma espécie existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody EspecieDTO dto) {
         if (!service.getEspecieById(id).isPresent()) {
-            return new ResponseEntity("Especie não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Espécie não encontrada", HttpStatus.NOT_FOUND);
         }
         try {
             Especie especie = converter(dto);
@@ -75,7 +75,7 @@ public class EspecieController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Especie> especie = service.getEspecieById(id);
         if (!especie.isPresent()) {
-            return new ResponseEntity("Especie não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Espécie não encontrada", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(especie.get());

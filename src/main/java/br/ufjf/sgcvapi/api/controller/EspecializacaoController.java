@@ -37,7 +37,7 @@ public class EspecializacaoController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Especializacao> especializacao = service.getEspecializacaoById(id);
         if (!especializacao.isPresent()) {
-            return new ResponseEntity("Especializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Especialização não encontrada", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(especializacao.map(EspecializacaoDTO::create));
     }
@@ -58,7 +58,7 @@ public class EspecializacaoController {
     @Operation(summary = "Atualiza os dados de uma especialização existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody EspecializacaoDTO dto) {
         if (!service.getEspecializacaoById(id).isPresent()) {
-            return new ResponseEntity("Especializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Especialização não encontrada", HttpStatus.NOT_FOUND);
         }
         try {
             Especializacao especializacao = converter(dto);
@@ -75,7 +75,7 @@ public class EspecializacaoController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Especializacao> especializacao = service.getEspecializacaoById(id);
         if (!especializacao.isPresent()) {
-            return new ResponseEntity("Especializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Especialização não encontrada", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(especializacao.get());

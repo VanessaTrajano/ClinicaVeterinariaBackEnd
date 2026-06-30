@@ -26,7 +26,7 @@ public class MedicamentoController {
     private final MedicamentoService service;
 
     @GetMapping()
-    @Operation(summary = "Lista todas os medicamentos")
+    @Operation(summary = "Lista todos os medicamentos")
     public ResponseEntity get() {
         List<Medicamento> medicamentos = service.getMedicamentos();
         return ResponseEntity.ok(medicamentos.stream().map(MedicamentoDTO::create).collect(Collectors.toList()));
@@ -58,7 +58,7 @@ public class MedicamentoController {
     @Operation(summary = "Atualiza os dados de um medicamento existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody MedicamentoDTO dto) {
         if (!service.getMedicamentoById(id).isPresent()) {
-            return new ResponseEntity("Medicamento não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Medicamento não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             Medicamento medicamento = converter(dto);
@@ -75,7 +75,7 @@ public class MedicamentoController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Medicamento> medicamento = service.getMedicamentoById(id);
         if (!medicamento.isPresent()) {
-            return new ResponseEntity("Medicamento não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Medicamento não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(medicamento.get());

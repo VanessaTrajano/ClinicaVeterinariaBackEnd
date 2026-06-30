@@ -42,7 +42,7 @@ public class VeterinarioEspecializacaoController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<VeterinarioEspecializacao> veterinarioEspecializacao = service.getVeterinarioEspecializacaoById(id);
         if (!veterinarioEspecializacao.isPresent()) {
-            return new ResponseEntity("VeterinarioEspecializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("VeterinarioEspecializacao não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(veterinarioEspecializacao.map(VeterinarioEspecializacaoDTO::create));
     }
@@ -63,7 +63,7 @@ public class VeterinarioEspecializacaoController {
     @Operation(summary = "Atualiza os dados de um veterinarioEspecializacao existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VeterinarioEspecializacaoDTO dto) {
         if (!service.getVeterinarioEspecializacaoById(id).isPresent()) {
-            return new ResponseEntity("VeterinarioEspecializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("VeterinarioEspecializacao não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             VeterinarioEspecializacao veterinarioEspecializacao = converter(dto);
@@ -80,7 +80,7 @@ public class VeterinarioEspecializacaoController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<VeterinarioEspecializacao> veterinarioEspecializacao = service.getVeterinarioEspecializacaoById(id);
         if (!veterinarioEspecializacao.isPresent()) {
-            return new ResponseEntity("VeterinarioEspecializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("VeterinarioEspecializacao não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(veterinarioEspecializacao.get());

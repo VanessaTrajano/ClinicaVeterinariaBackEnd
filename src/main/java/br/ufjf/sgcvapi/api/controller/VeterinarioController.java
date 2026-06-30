@@ -40,7 +40,7 @@ public class VeterinarioController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Veterinario> veterinario = service.getVeterinarioById(id);
         if (!veterinario.isPresent()) {
-            return new ResponseEntity("Veterinario não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Veterinario não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(veterinario.map(VeterinarioDTO::create));
     }
@@ -61,7 +61,7 @@ public class VeterinarioController {
     @Operation(summary = "Atualiza os dados de um veterinário existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VeterinarioDTO dto) {
         if (!service.getVeterinarioById(id).isPresent()) {
-            return new ResponseEntity("Veterinario não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Veterinario não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             Veterinario veterinario = converter(dto);
@@ -78,7 +78,7 @@ public class VeterinarioController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Veterinario> veterinario = service.getVeterinarioById(id);
         if (!veterinario.isPresent()) {
-            return new ResponseEntity("Veterinario não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Veterinario não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(veterinario.get());
@@ -93,7 +93,7 @@ public class VeterinarioController {
         Veterinario veterinario = modelMapper.map(dto, Veterinario.class);
         Optional<Endereco> endereco = enderecoService.getEnderecoById(dto.getIdEndereco());
         if(!endereco.isPresent()) {
-            throw new RegraNegocioException("Endereço não encontrada");
+            throw new RegraNegocioException("Endereço não encontrado");
         }
         veterinario.setEndereco(endereco.get());
         return veterinario;

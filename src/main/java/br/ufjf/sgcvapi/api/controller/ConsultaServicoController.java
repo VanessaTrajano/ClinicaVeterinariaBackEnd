@@ -101,7 +101,7 @@ public class ConsultaServicoController {
         consultaServico.setConsulta(consulta.get());
         Optional<Servico> servico = servicoService.getServicoById(dto.getIdServico());
         if(!servico.isPresent()) {
-            throw new RegraNegocioException("Serviço não encontrada");
+            throw new RegraNegocioException("Serviço não encontrado");
         }
         consultaServico.setServico(servico.get());
         return consultaServico;

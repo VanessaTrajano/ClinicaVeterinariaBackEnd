@@ -43,7 +43,7 @@ public class ServicoEspecializacaoController {
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ServicoEspecializacao> servicoEspecializacao = service.getServicoEspecializacaoById(id);
         if (!servicoEspecializacao.isPresent()) {
-            return new ResponseEntity("ServicoEspecializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("ServicoEspecializacao não encontrado", HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(servicoEspecializacao.map(ServicoEspecializacaoDTO::create));
     }
@@ -64,7 +64,7 @@ public class ServicoEspecializacaoController {
     @Operation(summary = "Atualiza dados de um servicoEspecializacao existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ServicoEspecializacaoDTO dto) {
         if (!service.getServicoEspecializacaoById(id).isPresent()) {
-            return new ResponseEntity("ServicoEspecializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("ServicoEspecializacao não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             ServicoEspecializacao servicoEspecializacao = converter(dto);
@@ -81,7 +81,7 @@ public class ServicoEspecializacaoController {
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<ServicoEspecializacao> servicoEspecializacao = service.getServicoEspecializacaoById(id);
         if (!servicoEspecializacao.isPresent()) {
-            return new ResponseEntity("ServicoEspecializacao não encontrada", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("ServicoEspecializacao não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             service.excluir(servicoEspecializacao.get());
@@ -96,7 +96,7 @@ public class ServicoEspecializacaoController {
         ServicoEspecializacao servicoEspecializacao = modelMapper.map(dto, ServicoEspecializacao.class);
         Optional<Servico> servico = servicoService.getServicoById(dto.getIdServico());
         if(!servico.isPresent()) {
-            throw new RegraNegocioException("Serviço não encontrada");
+            throw new RegraNegocioException("Serviço não encontrado");
         }
         servicoEspecializacao.setServico(servico.get());
         Optional<Especializacao> especializacao = especializacaoService.getEspecializacaoById(dto.getIdEspecializacao());
