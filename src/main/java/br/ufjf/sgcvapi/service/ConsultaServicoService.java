@@ -51,6 +51,7 @@ public class ConsultaServicoService {
     @Transactional
     public void excluir(ConsultaServico consultaServico) {
         Objects.requireNonNull(consultaServico.getId());
+        subtrairValorTotalConsulta(consultaServico);
         repository.delete(consultaServico);
     }
 
@@ -91,6 +92,25 @@ public class ConsultaServicoService {
         float subtotal = valorServico * quantidade;
 
         float novoValorTotal = consulta.getValor() + subtotal;
+        consulta.setValor(novoValorTotal);
+
+        consultaService.salvar(consulta);
+    }
+
+    private void subtrairValorTotalConsulta(ConsultaServico consultaServico) {
+        Long idConsulta = consultaServico.getConsulta().getId();
+
+        Consulta consulta = consultaService.getConsultaById(idConsulta)
+                .orElseThrow(() -> new RegraNegocioException("Consulta não encontrada para subtração de valor."));
+
+        float valorServico = consultaServico.getServico().getValor();
+        int quantidade = consultaServico.getQuantServicos();
+        float subtotal = valorServico * quantidade;
+
+        float novoValorTotal = consulta.getValor() - subtotal;
+        if (novoValorTotal < 0) {
+            novoValorTotal = 0;
+        }
         consulta.setValor(novoValorTotal);
 
         consultaService.salvar(consulta);
