@@ -1,6 +1,7 @@
 package br.ufjf.sgcvapi.service;
 
 import br.ufjf.sgcvapi.exception.RegraNegocioException;
+import br.ufjf.sgcvapi.model.entity.Consulta;
 import br.ufjf.sgcvapi.model.entity.MedicamentoConsulta;
 import br.ufjf.sgcvapi.model.repository.MedicamentoConsultaRepository;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,12 @@ import java.util.Optional;
 public class MedicamentoConsultaService {
     private MedicamentoConsultaRepository repository;
 
-    public MedicamentoConsultaService(MedicamentoConsultaRepository repository) {
+    private final ConsultaService consultaService;
+
+    public MedicamentoConsultaService(MedicamentoConsultaRepository repository,
+                                      ConsultaService consultaService) {
         this.repository = repository;
+        this.consultaService = consultaService;
     }
 
     public List<MedicamentoConsulta> getMedicamentoConsultas() {
@@ -29,12 +34,15 @@ public class MedicamentoConsultaService {
     @Transactional
     public MedicamentoConsulta salvar(MedicamentoConsulta medicamentoConsulta) {
         validar(medicamentoConsulta);
-        return repository.save(medicamentoConsulta);
+        MedicamentoConsulta medicamentoConsultaSalvo = repository.save(medicamentoConsulta);
+        atualizarValorTotalConsulta(medicamentoConsultaSalvo);
+        return medicamentoConsultaSalvo;
     }
 
     @Transactional
     public void excluir(MedicamentoConsulta medicamentoConsulta) {
         Objects.requireNonNull(medicamentoConsulta.getId());
+        subtrairValorTotalConsulta(medicamentoConsulta);
         repository.delete(medicamentoConsulta);
     }
 
@@ -45,5 +53,36 @@ public class MedicamentoConsultaService {
         if (medicamentoConsulta.getConsulta() == null || medicamentoConsulta.getConsulta().getId() == null || medicamentoConsulta.getConsulta().getId() == 0) {
             throw new RegraNegocioException("Consulta inválida");
         }
+    }
+
+    private void atualizarValorTotalConsulta(MedicamentoConsulta medicamentoConsulta) {
+        Long idConsulta = medicamentoConsulta.getConsulta().getId();
+
+        Consulta consulta = consultaService.getConsultaById(idConsulta)
+                .orElseThrow(() -> new RegraNegocioException("Consulta não encontrada para atualização de valor."));
+
+        float valorMedicamento = medicamentoConsulta.getMedicamento().getValor();
+
+        float novoValorTotal = consulta.getValor() + valorMedicamento;
+        consulta.setValor(novoValorTotal);
+
+        consultaService.salvar(consulta);
+    }
+
+    private void subtrairValorTotalConsulta(MedicamentoConsulta medicamentoConsulta) {
+        Long idConsulta = medicamentoConsulta.getConsulta().getId();
+
+        Consulta consulta = consultaService.getConsultaById(idConsulta)
+                .orElseThrow(() -> new RegraNegocioException("Consulta não encontrada para subtração de valor."));
+
+        float valorMedicamento = medicamentoConsulta.getMedicamento().getValor();
+
+        float novoValorTotal = consulta.getValor() - valorMedicamento;
+        if (novoValorTotal < 0) {
+            novoValorTotal = 0;
+        }
+        consulta.setValor(novoValorTotal);
+        
+        consultaService.salvar(consulta);
     }
 }
