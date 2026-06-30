@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.Veterinario;
 import br.ufjf.sgcvapi.service.ConsultaService;
 import br.ufjf.sgcvapi.service.ConsultaVeterinarioService;
 import br.ufjf.sgcvapi.service.VeterinarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/consultaVeterinarios")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "ConsultaVeterinarios", description = "Operações relacionadas à ligação de veterinários e consultas já cadastrados")
 public class ConsultaVeterinarioController {
 
     private final ConsultaVeterinarioService service;
@@ -29,12 +32,14 @@ public class ConsultaVeterinarioController {
     private final VeterinarioService veterinarioService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as ConsultaVeterinarios")
     public ResponseEntity get() {
         List<ConsultaVeterinario> consultaVeterinarios = service.getConsultaVeterinarios();
         return ResponseEntity.ok(consultaVeterinarios.stream().map(ConsultaVeterinarioDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma ConsultaVeterinario pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ConsultaVeterinario> consultaVeterinario = service.getConsultaVeterinarioById(id);
         if (!consultaVeterinario.isPresent()) {
@@ -44,6 +49,7 @@ public class ConsultaVeterinarioController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova ConsultaVeterinario")
     public ResponseEntity post(@RequestBody ConsultaVeterinarioDTO dto) {
         try {
             ConsultaVeterinario consultaVeterinario = converter(dto);
@@ -55,6 +61,7 @@ public class ConsultaVeterinarioController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de uma ConsultaVeterinario já existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ConsultaVeterinarioDTO dto) {
         if (!service.getConsultaVeterinarioById(id).isPresent()) {
             return new ResponseEntity("ConsultaVeterinario não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +77,7 @@ public class ConsultaVeterinarioController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma ConsultaVeterinario")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<ConsultaVeterinario> consultaVeterinario = service.getConsultaVeterinarioById(id);
         if (!consultaVeterinario.isPresent()) {
@@ -93,7 +101,7 @@ public class ConsultaVeterinarioController {
         consultaVeterinario.setConsulta(consulta.get());
         Optional<Veterinario> veterinario = veterinarioService.getVeterinarioById(dto.getIdVeterinario());
         if(!veterinario.isPresent()) {
-            throw new RegraNegocioException("Veterinário não encontrada");
+            throw new RegraNegocioException("Veterinário não encontrado");
         }
         consultaVeterinario.setVeterinario(veterinario.get());
         return consultaVeterinario;

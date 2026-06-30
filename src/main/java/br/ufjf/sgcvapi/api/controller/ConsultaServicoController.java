@@ -8,6 +8,8 @@ import br.ufjf.sgcvapi.model.entity.Servico;
 import br.ufjf.sgcvapi.service.ConsultaService;
 import br.ufjf.sgcvapi.service.ConsultaServicoService;
 import br.ufjf.sgcvapi.service.ServicoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/consultaServicos")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "ConsultaServicos", description = "Operações relacionadas à ligação de serviços e consultas já cadastrados")
 public class ConsultaServicoController {
 
     private final ConsultaServicoService service;
@@ -29,12 +32,14 @@ public class ConsultaServicoController {
     private final ServicoService servicoService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as consultaServicos")
     public ResponseEntity get() {
         List<ConsultaServico> consultaServicos = service.getConsultaServicos();
         return ResponseEntity.ok(consultaServicos.stream().map(ConsultaServicoDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma ConsultaServicos por ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<ConsultaServico> consultaServico = service.getConsultaServicoById(id);
         if (!consultaServico.isPresent()) {
@@ -44,6 +49,7 @@ public class ConsultaServicoController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova ConsultaServico")
     public ResponseEntity post(@RequestBody ConsultaServicoDTO dto) {
         try {
             ConsultaServico consultaServico = converter(dto);
@@ -55,6 +61,7 @@ public class ConsultaServicoController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de uma ConsultaServico existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ConsultaServicoDTO dto) {
         if (!service.getConsultaServicoById(id).isPresent()) {
             return new ResponseEntity("ConsultaServico não encontrada", HttpStatus.NOT_FOUND);
@@ -70,6 +77,7 @@ public class ConsultaServicoController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma ConsultaServico")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<ConsultaServico> consultaServico = service.getConsultaServicoById(id);
         if (!consultaServico.isPresent()) {
@@ -93,7 +101,7 @@ public class ConsultaServicoController {
         consultaServico.setConsulta(consulta.get());
         Optional<Servico> servico = servicoService.getServicoById(dto.getIdServico());
         if(!servico.isPresent()) {
-            throw new RegraNegocioException("Serviço não encontrada");
+            throw new RegraNegocioException("Serviço não encontrado");
         }
         consultaServico.setServico(servico.get());
         return consultaServico;

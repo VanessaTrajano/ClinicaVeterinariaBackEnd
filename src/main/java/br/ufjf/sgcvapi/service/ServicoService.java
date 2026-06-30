@@ -46,7 +46,7 @@ public class ServicoService {
             throw new RegraNegocioException("Nome inválido");
         }
         if (servico.getDescricao() == null || servico.getDescricao().trim().equals("")) {
-            throw new RegraNegocioException("Descrição inválido");
+            throw new RegraNegocioException("Descrição inválida");
         }
     }
 }

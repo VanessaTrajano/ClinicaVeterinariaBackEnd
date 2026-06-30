@@ -6,6 +6,8 @@ import br.ufjf.sgcvapi.model.entity.Consulta;
 import br.ufjf.sgcvapi.model.entity.Pet;
 import br.ufjf.sgcvapi.service.ConsultaService;
 import br.ufjf.sgcvapi.service.PetService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -20,18 +22,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/consultas")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Consultas", description = "Operações relacionadas a consultas")
 public class ConsultaController {
 
     private final ConsultaService service;
     private final PetService petService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as consultas")
     public ResponseEntity get() {
         List<Consulta> consultas = service.getConsultas();
         return ResponseEntity.ok(consultas.stream().map(ConsultaDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma consulta por ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Consulta> consulta = service.getConsultaById(id);
         if (!consulta.isPresent()) {
@@ -41,6 +46,7 @@ public class ConsultaController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova consulta")
     public ResponseEntity post(@RequestBody ConsultaDTO dto) {
         try {
             Consulta consulta = converter(dto);
@@ -52,6 +58,7 @@ public class ConsultaController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de uma consulta já existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ConsultaDTO dto) {
         if (!service.getConsultaById(id).isPresent()) {
             return new ResponseEntity("Consulta não encontrada", HttpStatus.NOT_FOUND);
@@ -67,6 +74,7 @@ public class ConsultaController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma consulta")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Consulta> consulta = service.getConsultaById(id);
         if (!consulta.isPresent()) {
@@ -85,7 +93,7 @@ public class ConsultaController {
         Consulta consulta = modelMapper.map(dto, Consulta.class);
         Optional<Pet> pet = petService.getPetById(dto.getIdPet());
         if(!pet.isPresent()) {
-            throw new RegraNegocioException("Pet não encontrada");
+            throw new RegraNegocioException("Pet não encontrado");
         }
         consulta.setPet(pet.get());
         return consulta;

@@ -6,6 +6,8 @@ import br.ufjf.sgcvapi.model.entity.Especie;
 import br.ufjf.sgcvapi.model.entity.Raca;
 import br.ufjf.sgcvapi.service.EspecieService;
 import br.ufjf.sgcvapi.service.RacaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -20,18 +22,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/racas")
 @RequiredArgsConstructor
 @CrossOrigin
+@Tag(name = "Raças", description = "Operações relacionadas a raças")
 public class RacaController {
 
     private final RacaService service;
     private final EspecieService especieService;
 
     @GetMapping()
+    @Operation(summary = "Lista todas as raças")
     public ResponseEntity get() {
         List<Raca> racas = service.getRacas();
         return ResponseEntity.ok(racas.stream().map(RacaDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Consulta uma raça pelo ID")
     public ResponseEntity get(@PathVariable("id") Long id) {
         Optional<Raca> raca = service.getRacaById(id);
         if (!raca.isPresent()) {
@@ -41,6 +46,7 @@ public class RacaController {
     }
 
     @PostMapping()
+    @Operation(summary = "Cadastra uma nova raça")
     public ResponseEntity post(@RequestBody RacaDTO dto) {
         try {
             Raca raca = converter(dto);
@@ -52,6 +58,7 @@ public class RacaController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualiza os dados de uma raça existente")
     public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody RacaDTO dto) {
         if (!service.getRacaById(id).isPresent()) {
             return new ResponseEntity("Raca não encontrada", HttpStatus.NOT_FOUND);
@@ -67,6 +74,7 @@ public class RacaController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Exclui uma raça")
     public ResponseEntity excluir(@PathVariable("id") Long id) {
         Optional<Raca> raca = service.getRacaById(id);
         if (!raca.isPresent()) {

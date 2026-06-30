@@ -59,7 +59,7 @@ public class ConsultaService {
 
     public void validar(Consulta consulta) {
         if (consulta.getQuantDiasInternacao() == null || consulta.getQuantDiasInternacao() < 0) {
-            throw new RegraNegocioException("Quantidade de dias de internação inválido");
+            throw new RegraNegocioException("Quantidade de dias de internação inválida");
         }
         if (consulta.getId() == null && consulta.getValor() != 0) {
             throw new RegraNegocioException("Uma nova consulta deve ser criada inicialmente com o valor zerado.");

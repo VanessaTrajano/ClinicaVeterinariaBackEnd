@@ -57,7 +57,7 @@ public class ConsultaServicoService {
 
     public void validar(ConsultaServico consultaServico) {
         if (consultaServico.getQuantServicos() == null || consultaServico.getQuantServicos() == 0) {
-            throw new RegraNegocioException("Quantidade de Serviços inválida");
+            throw new RegraNegocioException("Quantidade de Serviços inválidos");
         }
         if (consultaServico.getConsulta() == null || consultaServico.getConsulta().getId() == null || consultaServico.getConsulta().getId() == 0) {
             throw new RegraNegocioException("Consulta inválida");

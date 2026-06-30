@@ -52,7 +52,7 @@ public class EnderecoService {
             throw new RegraNegocioException("Bairro inválido");
         }
         if (endereco.getCidade() == null || endereco.getCidade().trim().equals("")) {
-            throw new RegraNegocioException("Cidade inválido");
+            throw new RegraNegocioException("Cidade inválida");
         }
         if (endereco.getEstado() == null || endereco.getEstado().trim().equals("")) {
             throw new RegraNegocioException("Estado inválido");
