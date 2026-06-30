@@ -3,6 +3,8 @@ package br.ufjf.sgcvapi.service;
 import br.ufjf.sgcvapi.exception.RegraNegocioException;
 import br.ufjf.sgcvapi.model.entity.ConsultaServico;
 import br.ufjf.sgcvapi.model.repository.ConsultaServicoRepository;
+import br.ufjf.sgcvapi.model.repository.MedicamentoConsultaRepository;
+import br.ufjf.sgcvapi.model.repository.VacinaConsultaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +16,15 @@ import java.util.Optional;
 public class ConsultaServicoService {
     private ConsultaServicoRepository repository;
 
-    public ConsultaServicoService(ConsultaServicoRepository repository) {
+    private final VacinaConsultaRepository vacinaConsultaRepository;
+    private final MedicamentoConsultaRepository medicamentoConsultaRepository;
+
+    public ConsultaServicoService(ConsultaServicoRepository repository,
+                                  VacinaConsultaRepository vacinaConsultaRepository,
+                                  MedicamentoConsultaRepository medicamentoConsultaRepository) {
         this.repository = repository;
+        this.vacinaConsultaRepository = vacinaConsultaRepository;
+        this.medicamentoConsultaRepository = medicamentoConsultaRepository;
     }
 
     public List<ConsultaServico> getConsultaServicos() {
@@ -47,6 +56,21 @@ public class ConsultaServicoService {
         }
         if (consultaServico.getServico() == null || consultaServico.getServico().getId() == null || consultaServico.getServico().getId() == 0) {
             throw new RegraNegocioException("Servico inválido");
+        }
+
+        Long idConsulta = consultaServico.getConsulta().getId();
+
+        if (Boolean.TRUE.equals(consultaServico.getServico().isVacinaEhObrigatorio())) {
+            boolean possuiVacina = vacinaConsultaRepository.existsByConsultaId(idConsulta);
+            if (!possuiVacina) {
+                throw new RegraNegocioException("Não é possível adicionar este serviço. Ele exige uma vacina obrigatória, mas nenhuma vacina foi vinculada a esta consulta ainda.");
+            }
+        }
+        if (Boolean.TRUE.equals(consultaServico.getServico().isMedicamentoEhObrigatorio())) {
+            boolean possuiMedicamento = medicamentoConsultaRepository.existsByConsultaId(idConsulta);
+            if (!possuiMedicamento) {
+                throw new RegraNegocioException("Não é possível adicionar este serviço. Ele exige um medicamento obrigatório, mas nenhum medicamento foi vinculado a esta consulta ainda.");
+            }
         }
     }
 }
