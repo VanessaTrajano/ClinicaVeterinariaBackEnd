@@ -4,7 +4,7 @@ services:
     container_name: spring-postgres
     restart: always
     environment:
-      POSTGRES_DB: clinica_vet_db
+      POSTGRES_DB: clinica_veterinaria_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
