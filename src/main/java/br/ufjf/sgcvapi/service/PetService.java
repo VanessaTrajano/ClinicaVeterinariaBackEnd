@@ -39,7 +39,7 @@ public class PetService {
     }
 
     public void validar(Pet pet) {
-        if (pet.getPeso() == 0) {
+        if (pet.getPeso() <= 0) {
             throw new RegraNegocioException("Peso inválido");
         }
         if (pet.getNome() == null || pet.getNome().trim().equals("")) {
