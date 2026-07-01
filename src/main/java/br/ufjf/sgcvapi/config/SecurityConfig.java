@@ -73,7 +73,7 @@ public class SecurityConfig{
                     .permitAll()
                 .requestMatchers("/api/v1/servicos/**")
                     .permitAll()
-                .requestMatchers("/api/v1/servicoEspecializacaos/**")
+                .requestMatchers("/api/v1/servicoEspecializacoes/**")
                     .permitAll()
                 .requestMatchers("/api/v1/vacinaConsultas/**")
                     .permitAll()
