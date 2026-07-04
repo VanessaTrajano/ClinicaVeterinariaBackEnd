@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Agendamento {
-    // essa classe precisa de avaliação posterior, ainda há dúvida sobre a estruturação
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +30,6 @@ public class Agendamento {
 
     @ManyToOne
     private Consulta consulta;
+
+    private String status;
 }
